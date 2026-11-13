@@ -5,6 +5,7 @@ import tempfile
 import unittest
 
 from tests.module.test_nt51927_crc import fixture as write_nt51927_fixture
+from tests.module.test_nt51928b import MODE as NT51928B_MODE, write_case as write_nt51928b_case
 from tests.module.test_nt51932_no_overlay import write_fixture as write_nt51932_fixture
 from tests.support.differential import run_python
 
@@ -87,6 +88,55 @@ class WriteSafetyFailureModuleTests(unittest.TestCase):
                 result.stdout,
             )
             self.assertFalse((root / "output.bin").exists())
+
+    def test_nt51928b_small_firmware_is_rejected_before_any_config_write(self) -> None:
+        # The C version writes past its buffer here (undefined behavior).
+        cases = (
+            (
+                0x34000,
+                "Validation error: NT51928B FW config: destination range out of bounds; "
+                "start=209152, length=4092, end=213244, buffer_size=212992, available=3840",
+            ),
+            (
+                0x340FC,
+                "Validation error: NT51928B FW config end flag: destination range out of bounds; "
+                "start=213244, length=4, end=213248, buffer_size=213244, available=0",
+            ),
+        )
+        for firmware_size, message in cases:
+            with self.subTest(firmware_size=hex(firmware_size)), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                write_nt51928b_case(root, firmware_size)
+
+                result = run_python(
+                    [NT51928B_MODE, "CRC8", "out.bin", "fw.bin", "block.bin", "0x0", "0", "0"],
+                    root,
+                )
+
+                self.assertNotEqual(0, result.returncode)
+                self.assertIn(message, result.stdout)
+                self.assertFalse((root / "out.bin").exists())
+
+    def test_nt51928b_config_source_overrun_reports_available_bytes(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            write_nt51928b_case(root)
+            firmware = bytearray((root / "fw.bin").read_bytes())
+            firmware[0xD038:0xD03C] = (0x3E000).to_bytes(4, "little")
+            (root / "fw.bin").write_bytes(firmware)
+
+            result = run_python(
+                [NT51928B_MODE, "CRC8", "out.bin", "fw.bin", "block.bin", "0x0", "0", "0"],
+                root,
+            )
+
+            self.assertNotEqual(0, result.returncode)
+            self.assertIn(
+                "Validation error: NT51928B FW config: source range out of bounds; "
+                "start=253952, length=4092, end=258044, buffer_size=255872, available=1920",
+                result.stdout,
+            )
+            self.assertFalse((root / "out.bin").exists())
 
     def test_nt51927_header_cycle_stops_before_output_write(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

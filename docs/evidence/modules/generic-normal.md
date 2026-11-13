@@ -8,7 +8,7 @@ CRC_Enable|CRC32_Enable|CRC_Disable <fw-in-out> \
   <block-bin> <source-hex> <destination-hex> <length-dec> [...]
 ```
 
-`tests/module/test_normal_crc_enabled.py` runs the pinned Combiner 1.13 EXE
+`tests/module/test_normal_crc_enabled.py` runs the pinned Combiner 1.14.0.0 EXE
 and `python -m nvt_combiner` with exactly the same positional argv.  Each
 case asserts process exit code, stdout, and the complete rewritten firmware.
 The CRC-enabled fixture covers a single common header for both CRC methods,

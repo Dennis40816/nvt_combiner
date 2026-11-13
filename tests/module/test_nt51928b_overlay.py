@@ -8,11 +8,10 @@ import tempfile
 import unittest
 
 from tests.module.test_normal_overlay import MAP
-from tests.module.test_nt51928b import MODE, write_case
+from tests.module.test_nt51928b import MODE, REFERENCE_EXE, write_case
 
 
 ROOT = Path(__file__).resolve().parents[2]
-from tests.support.differential import REFERENCE_EXE
 
 
 def run(command: list[str], cwd: Path, environment: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:

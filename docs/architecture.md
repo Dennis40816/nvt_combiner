@@ -2,7 +2,7 @@
 
 ## 設計原則
 
-此專案的正確性定義是 legacy `Combiner.exe` 的外部可觀測行為，不是重新設計 firmware format。每一個 mode 都以相同 argv 對私有 legacy Combiner 1.13 oracle 比對 exit code、stdout/stderr 與完整 output bytes。私有參考不隨本 repo 發布，測試環境以 `NVT_COMBINER_LEGACY_ORACLE` 提供。只有通過差分測試的 mode 才能標示為支援。
+此專案的正確性定義是 legacy `Combiner.exe` 的外部可觀測行為，不是重新設計 firmware format。每一個 mode 都以相同 argv 對私有 legacy Combiner 1.14.0.0 oracle 比對 exit code、stdout/stderr 與完整 output bytes。私有參考不隨本 repo 發布，測試環境以 `NVT_COMBINER_LEGACY_ORACLE` 提供。只有通過差分測試的 mode 才能標示為支援。
 
 CLI 不採用 `argparse`：它會改變缺參數、未知 mode 與數值解析的行為。第一層只接收原始 `sys.argv[1:]`，保留 selector、參數順序、十六進位/十進位基底與既有輸出訊息。
 

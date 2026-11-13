@@ -13,7 +13,7 @@ relocates the B-code ILM, DLM, and DLM_DIFF addresses at offsets `0x7164`,
 
 ## Differential coverage
 
-`tests/module/test_nt51932_merge_ab.py` runs the pinned 1.13 executable and
+`tests/module/test_nt51932_merge_ab.py` runs the pinned 1.14.0.0 executable and
 the Python module with identical relative arguments. It compares exit code,
 stdout, stderr, and every output byte for a successful merge. It also compares
 the legacy overlap failure, including its no-trailing-newline console message

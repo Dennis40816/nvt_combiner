@@ -2,10 +2,10 @@
 
 ## 已確認的現況
 
-- 原始實作是私有 legacy C Combiner 1.13，版本 banner 為 `Combiner version:1.13.0.0`；參考原始碼不隨本 repo 發布。
+- 原始實作是私有 legacy C Combiner 1.13，版本 banner 原為 `Combiner version:1.13.0.0`，owner 2026-11-13 改為 `Combiner version:1.14.0.0`；參考原始碼不隨本 repo 發布。
 - 主要檔案格式邏輯集中於單一 2,196 行 C 檔；共通 file helpers 在 `Utilities.c`。
 - Python 與 PyInstaller 已可用，故 Python 實作與 Windows EXE packaging 不受工具鏈阻礙。
-- 私有 legacy Combiner 1.13 參考 EXE 曾作為差分 oracle；不隨本 repo 發布。私有環境以 `NVT_COMBINER_LEGACY_ORACLE` 指定其絕對路徑。
+- 私有 legacy Combiner 1.13 參考 EXE 曾作為差分 oracle。2026-11-13 起差分 oracle 改為由更新後 C 建出的私有 Combiner 1.14.0.0 參考 EXE；私有 repo 的回歸測試證明它除了 NT51928B 與 banner 之外，在每個支援的成功案例都與 1.13 相同。兩者都不隨本 repo 發布。私有環境以 `NVT_COMBINER_LEGACY_ORACLE` 指定 1.14.0.0 EXE 的絕對路徑。
 - NT51929 的 no-overlay map 等效性已由 owner golden run 證實；詳見 [evidence](evidence/nt51929-no-overlay-map.md)。
 
 ## CLI contract inventory
@@ -30,7 +30,7 @@
 
 ## 已驗證的實作切片
 
-`NT51932BASED_NORMAL_MODE` 已有一個可重建的 no-overlay differential case：`CRC8` 與 `CRC32` 都使用相同相對 argv，對 pinned 1.13 EXE 比較 process exit code、stdout、stderr、輸出 bytes 與 SHA-256。它只覆蓋 256 KiB、單 IC、正常 source range 的 synthetic firmware，並不宣稱 overlay map、cascade、malformed CLI 或其他 IC family 已相容。詳見 [module evidence](evidence/modules/nt51932-no-overlay.md)。
+`NT51932BASED_NORMAL_MODE` 已有一個可重建的 no-overlay differential case：`CRC8` 與 `CRC32` 都使用相同相對 argv，對私有 reference EXE 比較 process exit code、stdout、stderr、輸出 bytes 與 SHA-256。它只覆蓋 256 KiB、單 IC、正常 source range 的 synthetic firmware，並不宣稱 overlay map、cascade、malformed CLI 或其他 IC family 已相容。詳見 [module evidence](evidence/modules/nt51932-no-overlay.md)。
 
 `NT51932BASED_MERGE_AB_MODE` 的成功 merge 與 A/B overlap failure 都已對 pinned EXE 做完整 process / console / file differential；詳見 [A/B module evidence](evidence/modules/nt51932-merge-ab.md)。
 
@@ -46,7 +46,7 @@ generic `CRC_Enable` / `CRC32_Enable` / `CRC_Disable` 已以 no-overlay syntheti
 
 `NT51930BASED_NORMAL_MODE` 已以 256 KiB no-overlay synthetic case 對 pinned EXE 驗證；涵蓋 IC-count buffer size、FwConfig 位置計算、`NVT` end flag，以及 CRC8 / CRC32 的 ILM/DLM、DLM diff、header CRC。詳見 [NT51930 evidence](evidence/modules/nt51930.md)。
 
-`NT51928BBASED_NORMAL_MODE` 已以 no-overlay synthetic case 對 pinned EXE 驗證；涵蓋固定 `0x3E000` 的 1920-byte FwConfig 複製，以及 CRC8 / CRC32 的 `0xDxxx` ILM/DLM/header CRC。詳見 [NT51928B evidence](evidence/modules/nt51928b.md)。
+`NT51928BBASED_NORMAL_MODE` 依 owner 2026-11-13 的需求變更，改對由更新後 C 建出的私有 Combiner 1.14.0.0 參考 EXE 驗證；涵蓋 `0x33100` 的 4092-byte FwConfig 複製、`0x340FC` 的 `NVT` end flag，以及 CRC8 / CRC32 的 `0xDxxx` ILM/DLM/header CRC。此 mode 的行為因此與 1.13 不同。詳見 [NT51928B evidence](evidence/modules/nt51928b.md)。
 
 上述五個 map-based normal families 都另有 ordinary `_ovly_table =` descriptor 的 CRC8 / CRC32 differential case，及 HostDL/Process `OverlayDLMaddr` 的 CRC8 differential case；generic normal 的 HostDL branch 另涵蓋 CRC32。多 descriptor table 目前有 generic normal differential case，尚未逐 IC family 展開。
 

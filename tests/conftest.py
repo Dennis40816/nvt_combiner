@@ -12,7 +12,7 @@ def pytest_collection_modifyitems(items):
         return
 
     marker = pytest.mark.skip(
-        reason="set NVT_COMBINER_LEGACY_ORACLE to an existing private legacy Combiner 1.13 EXE"
+        reason="set NVT_COMBINER_LEGACY_ORACLE to an existing private legacy Combiner 1.14.0.0 EXE"
     )
     for item in items:
         path = Path(str(item.path))

@@ -20,7 +20,7 @@ map evidence.
 `tests/module/test_nt51932_no_overlay.py` creates a 256 KiB single-IC fixture,
 one 16-byte block, and both empty and textual no-overlay maps. It executes:
 
-1. the private legacy Combiner 1.13 oracle; and
+1. the private legacy Combiner 1.14.0.0 oracle (1.13 before 2026-11-13; the output bytes are unchanged); and
 2. `python -m nvt_combiner` with the exact same positional arguments.
 
 For both CRC methods it asserts equal return code, stdout, stderr, complete
