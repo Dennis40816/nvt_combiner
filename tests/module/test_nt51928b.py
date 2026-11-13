@@ -9,8 +9,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[2]
-# The private reference EXE with the owner's 2026-11-13 FwConfig change; see docs/evidence/modules/nt51928b.md.
-from tests.support.differential import NT51928B_REFERENCE_EXE as REFERENCE_EXE
+from tests.support.differential import REFERENCE_EXE
 MODE = "NT51928BBASED_NORMAL_MODE"
 # FwConfig destination 0x33100 + 4092 copied bytes + 4-byte end flag.
 MINIMUM_FIRMWARE_SIZE = 0x34100
