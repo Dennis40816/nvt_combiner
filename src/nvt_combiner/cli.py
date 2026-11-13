@@ -51,7 +51,7 @@ def main(argv: list[str] | None = None) -> int:
     """Dispatch one legacy positional invocation and return its process code."""
     arguments = list(sys.argv[1:] if argv is None else argv)
     print("--------------------------------------")
-    print("Combiner version:1.13.0.0")
+    print("Combiner version:1.14.0.0")
 
     # The C binary crashes if argv[1] is absent; malformed calls are not a
     # compatibility contract, so migration reports a deterministic failure.
