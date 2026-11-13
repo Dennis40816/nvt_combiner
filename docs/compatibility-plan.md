@@ -46,7 +46,7 @@ generic `CRC_Enable` / `CRC32_Enable` / `CRC_Disable` 已以 no-overlay syntheti
 
 `NT51930BASED_NORMAL_MODE` 已以 256 KiB no-overlay synthetic case 對 pinned EXE 驗證；涵蓋 IC-count buffer size、FwConfig 位置計算、`NVT` end flag，以及 CRC8 / CRC32 的 ILM/DLM、DLM diff、header CRC。詳見 [NT51930 evidence](evidence/modules/nt51930.md)。
 
-`NT51928BBASED_NORMAL_MODE` 已以 no-overlay synthetic case 對 pinned EXE 驗證；涵蓋固定 `0x3E000` 的 1920-byte FwConfig 複製，以及 CRC8 / CRC32 的 `0xDxxx` ILM/DLM/header CRC。詳見 [NT51928B evidence](evidence/modules/nt51928b.md)。
+`NT51928BBASED_NORMAL_MODE` 依 owner 2026-11-13 的需求變更，改對由更新後 C 建出的私有 NT51928B 參考 EXE（`NVT_COMBINER_NT51928B_ORACLE`）驗證；涵蓋 `0x33100` 的 4092-byte FwConfig 複製、`0x340FC` 的 `NVT` end flag，以及 CRC8 / CRC32 的 `0xDxxx` ILM/DLM/header CRC。此 mode 的行為因此與 1.13 不同。詳見 [NT51928B evidence](evidence/modules/nt51928b.md)。
 
 上述五個 map-based normal families 都另有 ordinary `_ovly_table =` descriptor 的 CRC8 / CRC32 differential case，及 HostDL/Process `OverlayDLMaddr` 的 CRC8 differential case；generic normal 的 HostDL branch 另涵蓋 CRC32。多 descriptor table 目前有 generic normal differential case，尚未逐 IC family 展開。
 

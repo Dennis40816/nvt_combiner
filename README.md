@@ -21,6 +21,6 @@
 
 本公開快照由私有 intake `2.0.0.1` (`d7b08b9`) 建立，僅包含 Python 版及其測試、文件。私有 legacy Combiner 1.13 C 原始碼與參考 EXE 不隨本 repo 發布；相容性結論保留於 `docs/evidence/`。
 
-在有權使用私有參考程式的環境中，將 `NVT_COMBINER_LEGACY_ORACLE` 設為該 EXE 的絕對路徑，再執行 `python -m pytest`，即可執行既有差分測試。未設定或檔案不存在時，依賴該 oracle 的測試會 skip 並說明原因；一般 Python 測試仍可執行。私有參考程式與實際韌體資料請勿加入本 repo。
+在有權使用私有參考程式的環境中，將 `NVT_COMBINER_LEGACY_ORACLE` 設為該 EXE 的絕對路徑，再執行 `python -m pytest`，即可執行既有差分測試。未設定或檔案不存在時，依賴該 oracle 的測試會 skip 並說明原因；一般 Python 測試仍可執行。`NT51928BBASED_NORMAL_MODE` 依 owner 2026-11-13 的需求變更，與 1.13 不同；它的差分測試另需 `NVT_COMBINER_NT51928B_ORACLE` 指向由更新後 C 建出的私有參考 EXE，詳見 [NT51928B evidence](docs/evidence/modules/nt51928b.md)。私有參考程式與實際韌體資料請勿加入本 repo。
 
 請先閱讀 [架構](docs/architecture.md) 與 [相容性計畫](docs/compatibility-plan.md) 再開始實作。
