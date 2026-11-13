@@ -9,7 +9,7 @@ EXE with the Windows version resource:
 
 The script reads the generated EXE's `FileVersion` and `ProductVersion`
 through Windows and requires both to equal the four-component Python release
-version (currently `2.0.0.1`).  The packaged suite independently repeats that
+version (currently `2.0.0.2`).  The packaged suite independently repeats that
 resource check.  It also runs the produced EXE and the pinned
 Combiner 1.14.0.0 reference with identical positional arguments, comparing return
 code, stdout, stderr and all output binary bytes for these success cases:

@@ -1,7 +1,12 @@
 # Release versioning
 
 `nvt_combiner` uses a four-component release version.  The current version is
-**2.0.0.1**.
+**2.0.0.2**.
+
+The 2.0.0.x versions are preliminary builds that identify the Python port.
+The owner set this on 2026-11-13.  The first formal release will be
+**2.1.0.0**.  The existing tags `2.0.0.0` and `2.0.0.1` and the `2.0.0.1`
+GitHub release of the private repository stay as they are.
 
 - `nvt_combiner.version.__version__` is the only version source; setuptools
   derives wheel metadata from it.
