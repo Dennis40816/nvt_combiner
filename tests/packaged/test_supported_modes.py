@@ -34,8 +34,13 @@ from tests.module import test_nt51950_overlay
 
 
 ROOT = Path(__file__).resolve().parents[2]
-from tests.support.differential import REFERENCE_EXE
+from tests.support.differential import NT51928B_REFERENCE_EXE, REFERENCE_EXE
 PACKAGED_EXE = Path(os.environ.get("COMBINER_EXE", ""))
+# NT51928B follows the owner's 2026-11-13 FwConfig change, which the 1.13 EXE does not have.
+_REFERENCE_EXE_OVERRIDES = {
+    "nt51928b": NT51928B_REFERENCE_EXE,
+    "nt51928b-overlay": NT51928B_REFERENCE_EXE,
+}
 
 
 def run(command: list[str], cwd: Path) -> subprocess.CompletedProcess[str]:
@@ -161,6 +166,8 @@ class TestPackagedSupportedModes(unittest.TestCase):
             ("nt51950-ab", write_nt51950_ab_case),
             ("merge", write_merge_case),
         )
+        if not NT51928B_REFERENCE_EXE.is_file():
+            cases = tuple(case for case in cases if case[0] not in _REFERENCE_EXE_OVERRIDES)
         for name, write_case in cases:
             with self.subTest(name=name), tempfile.TemporaryDirectory() as temporary:
                 root = Path(temporary)
@@ -173,7 +180,8 @@ class TestPackagedSupportedModes(unittest.TestCase):
                 self.assertEqual(arguments, packaged_arguments)
                 self.assertEqual(output_files, packaged_output_files)
 
-                reference = run([str(REFERENCE_EXE), *arguments], reference_dir)
+                reference_exe = _REFERENCE_EXE_OVERRIDES.get(name, REFERENCE_EXE)
+                reference = run([str(reference_exe), *arguments], reference_dir)
                 packaged = run([str(PACKAGED_EXE), *arguments], packaged_dir)
 
                 self.assertEqual(reference.returncode, packaged.returncode)

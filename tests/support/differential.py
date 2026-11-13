@@ -10,6 +10,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 REFERENCE_EXE = Path(os.environ.get("NVT_COMBINER_LEGACY_ORACLE") or ".")
+# NT51928B follows the owner's 2026-11-13 FwConfig change, which the 1.13 EXE does not have.
+NT51928B_REFERENCE_EXE = Path(os.environ.get("NVT_COMBINER_NT51928B_ORACLE") or ".")
 
 
 def run_process(

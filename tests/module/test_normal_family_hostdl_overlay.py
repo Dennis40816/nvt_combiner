@@ -16,7 +16,7 @@ from tests.module.test_nt51950_overlay import write_overlay_case as write_nt5195
 
 
 ROOT = Path(__file__).resolve().parents[2]
-from tests.support.differential import REFERENCE_EXE
+from tests.support.differential import NT51928B_REFERENCE_EXE, REFERENCE_EXE
 HOST_DLM_SUFFIX = "OverlayDLMaddr\n0123456789012345670x00000184\nskip\nskip\n"
 
 
@@ -41,6 +41,9 @@ class TestNormalFamilyHostDlOverlay(unittest.TestCase):
             ("nt51950", lambda directory: self._nt51950(directory), "output.bin"),
             ("nt51928b", lambda directory: self._nt51928b(directory), "out.bin"),
         )
+        if not NT51928B_REFERENCE_EXE.is_file():
+            # The NT51928B case needs its own private oracle; see tests/support/differential.py.
+            cases = tuple(case for case in cases if case[0] != "nt51928b")
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             for name, prepare, output_name in cases:
@@ -52,7 +55,8 @@ class TestNormalFamilyHostDlOverlay(unittest.TestCase):
                     arguments = prepare(reference_dir)
                     prepare(python_dir)
 
-                    reference = run([str(REFERENCE_EXE), *arguments], reference_dir)
+                    reference_exe = NT51928B_REFERENCE_EXE if name == "nt51928b" else REFERENCE_EXE
+                    reference = run([str(reference_exe), *arguments], reference_dir)
                     environment = os.environ.copy()
                     environment["PYTHONPATH"] = str(ROOT / "src")
                     candidate = run([sys.executable, "-m", "nvt_combiner", *arguments], python_dir, environment)
