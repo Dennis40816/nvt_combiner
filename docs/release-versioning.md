@@ -8,9 +8,10 @@
 - `scripts/build-release.ps1` generates the Windows version resource and
   writes EXE `FileVersion`/`ProductVersion` exactly as that four-component
   source version.
-- The legacy `Combiner version:1.13.0.0` console banner is intentionally
-  unchanged: it is part of the reference EXE's observable output and is
-  covered by differential tests.
+- The legacy console banner is `Combiner version:1.14.0.0`. The owner set
+  it on 2026-11-13. It is part of the reference EXE's observable output and
+  is covered by differential tests. The banner is separate from the release
+  version above.
 
 Run `./scripts/build-release.ps1` for the release build.  It generates the
 resource at an absolute path, verifies its `FileVersion` and `ProductVersion`

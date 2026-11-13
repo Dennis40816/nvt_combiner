@@ -12,7 +12,7 @@ the relocated 48-byte (`0x2F` size-code) header and stores it at `0xA130`.
 
 ## Differential coverage
 
-`tests/module/test_nt51950_merge_ab.py` compares the pinned 1.13 executable
+`tests/module/test_nt51950_merge_ab.py` compares the pinned 1.14.0.0 executable
 and Python module with identical arguments for both `CRC8` and `CRC32`. It
 requires equality of exit code, stdout, stderr, and every output byte. A
 separate test locks the overlap failure console output and no-output-file

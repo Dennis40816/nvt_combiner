@@ -2,7 +2,7 @@
 
 以 Python 改寫舊版 Novatek Combiner 的相容性優先專案。目標是在**不改變現有 CLI interface args** 的前提下，輸出與舊版 C `Combiner.exe` 一致的行為，並可打包為 Windows `Combiner.exe`。
 
-目前獨立產品版本與 Windows EXE 檔案版本皆為 **2.0.0.1**；console banner 則保留 legacy `1.13.0.0` 以維持相容性。詳見[版本策略](docs/release-versioning.md)。
+目前獨立產品版本與 Windows EXE 檔案版本皆為 **2.0.0.1**；console banner 依 owner 2026-11-13 指示改為 legacy `1.14.0.0`。詳見[版本策略](docs/release-versioning.md)。
 
 目前已完成 generic `CRC_Enable` / `CRC32_Enable` / `CRC_Disable`、`NT36672ABASED_MERGE_BIN_AND_GEN_CRC_MODE`、`NT51928BBASED_NORMAL_MODE`、`NT51930BASED_NORMAL_MODE`、`NT51931BASED_NORMAL_MODE`、受限的 NT51932 vertical slices、NT51950 normal/A-B、`NT51927BASED_GEN_CRC_MODE`，以及 `MERGE_MODE` 的 differential cases。它們不代表其他 mode 已完成移植；完整支援邊界見 [module evidence](docs/evidence/modules)。
 
@@ -21,6 +21,6 @@
 
 本公開快照由私有 intake `2.0.0.1` (`d7b08b9`) 建立，僅包含 Python 版及其測試、文件。私有 legacy Combiner 1.13 C 原始碼與參考 EXE 不隨本 repo 發布；相容性結論保留於 `docs/evidence/`。
 
-在有權使用私有參考程式的環境中，將 `NVT_COMBINER_LEGACY_ORACLE` 設為該 EXE 的絕對路徑，再執行 `python -m pytest`，即可執行既有差分測試。未設定或檔案不存在時，依賴該 oracle 的測試會 skip 並說明原因；一般 Python 測試仍可執行。`NT51928BBASED_NORMAL_MODE` 依 owner 2026-11-13 的需求變更，與 1.13 不同；它的差分測試另需 `NVT_COMBINER_NT51928B_ORACLE` 指向由更新後 C 建出的私有參考 EXE，詳見 [NT51928B evidence](docs/evidence/modules/nt51928b.md)。私有參考程式與實際韌體資料請勿加入本 repo。
+在有權使用私有參考程式的環境中，將 `NVT_COMBINER_LEGACY_ORACLE` 設為該 EXE 的絕對路徑，再執行 `python -m pytest`，即可執行既有差分測試。未設定或檔案不存在時，依賴該 oracle 的測試會 skip 並說明原因；一般 Python 測試仍可執行。依 owner 2026-11-13 的需求變更，私有參考程式改為由更新後 C 建出的 Combiner 1.14.0.0；它與 1.13 只差 `NT51928BBASED_NORMAL_MODE` 與 banner，詳見 [NT51928B evidence](docs/evidence/modules/nt51928b.md)。私有參考程式與實際韌體資料請勿加入本 repo。
 
 請先閱讀 [架構](docs/architecture.md) 與 [相容性計畫](docs/compatibility-plan.md) 再開始實作。

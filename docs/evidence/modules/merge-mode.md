@@ -6,7 +6,7 @@
 MERGE_MODE <output-bin> <input-bin> <source-hex> <destination-hex> <length-dec> [...]
 ```
 
-The module test runs two contiguous blocks through the pinned 1.13 EXE and the
+The module test runs two contiguous blocks through the pinned 1.14.0.0 EXE and the
 Python implementation, requiring equal process result, console output, and
 output bytes. It covers the C mode's source/destination/length parsing and
 copy diagnostics.
