@@ -18,7 +18,7 @@ class TestReleaseVersion(unittest.TestCase):
         with (ROOT / "pyproject.toml").open("rb") as project_file:
             project = tomllib.load(project_file)
 
-        self.assertEqual("2.0.0.1", __version__)
+        self.assertEqual("2.0.0.2", __version__)
         self.assertEqual(__version__, source_version)
         self.assertNotIn("version", project["project"])
         self.assertEqual(["version"], project["project"]["dynamic"])
