@@ -18,8 +18,9 @@ _CRC_METHODS = ("CRC8", "CRC32")
 _OVERLAY_INFO_OFFSET = 0xD028
 _FW_CONFIG_SOURCE_OFFSET = 0xD038
 _DLM_START_OFFSET = 0xD110
-_FW_CONFIG_DESTINATION = 0x3E000
-_FW_CONFIG_SIZE = 1920
+_FW_CONFIG_DESTINATION = 0x33100
+_FW_CONFIG_SIZE = 4092
+_FW_CONFIG_END_FLAG = b"\x00NVT"
 
 
 def run(arguments: list[str]) -> int:
@@ -56,6 +57,16 @@ def run(arguments: list[str]) -> int:
         f"Copy FwConfig from 0x{config_source:X} to 0x{_FW_CONFIG_DESTINATION:x}. "
         f"Size: {_FW_CONFIG_SIZE}-byte."
     )
+    end_flag_address = _FW_CONFIG_DESTINATION + _FW_CONFIG_SIZE
+    copy_exact(
+        output,
+        end_flag_address,
+        _FW_CONFIG_END_FLAG,
+        0,
+        len(_FW_CONFIG_END_FLAG),
+        context="NT51928B FW config end flag",
+    )
+    print(f"EndFlag Address = 0x{end_flag_address:X}")
 
     if method in _CRC_METHODS:
         write_overlay_count(output, _OVERLAY_INFO_OFFSET, overlay_info.count)
