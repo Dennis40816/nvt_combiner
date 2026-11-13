@@ -2,7 +2,7 @@
 
 以 Python 改寫舊版 Novatek Combiner 的相容性優先專案。目標是在**不改變現有 CLI interface args** 的前提下，輸出與舊版 C `Combiner.exe` 一致的行為，並可打包為 Windows `Combiner.exe`。
 
-目前獨立產品版本與 Windows EXE 檔案版本皆為 **2.0.0.1**；console banner 依 owner 2026-11-13 指示改為 legacy `1.14.0.0`。詳見[版本策略](docs/release-versioning.md)。
+目前獨立產品版本與 Windows EXE 檔案版本皆為 **2.0.0.2**（2.0.0.x 為預備版，正式發布從 2.1.0.0 起算）；console banner 依 owner 2026-11-13 指示改為 legacy `1.14.0.0`。詳見[版本策略](docs/release-versioning.md)。
 
 目前已完成 generic `CRC_Enable` / `CRC32_Enable` / `CRC_Disable`、`NT36672ABASED_MERGE_BIN_AND_GEN_CRC_MODE`、`NT51928BBASED_NORMAL_MODE`、`NT51930BASED_NORMAL_MODE`、`NT51931BASED_NORMAL_MODE`、受限的 NT51932 vertical slices、NT51950 normal/A-B、`NT51927BASED_GEN_CRC_MODE`，以及 `MERGE_MODE` 的 differential cases。它們不代表其他 mode 已完成移植；完整支援邊界見 [module evidence](docs/evidence/modules)。
 
